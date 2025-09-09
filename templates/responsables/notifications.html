@@ -1,0 +1,39 @@
+{% extends 'baseG.html' %}
+
+{% block content %}
+<div class="container mt-4">
+  <form method="post" action="{% url 'responsables:supprimer_notifications' %}">
+    {% csrf_token %}
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h3 class="mb-0">Toutes les notifications</h3>
+      <button type="submit" class="btn btn-outline-danger rounded-circle" title="Supprimer" onclick="return confirm('Supprimer les notifications séléctionnées ?')">
+        <i class="bx bx-trash"></i>
+      </button>
+    </div>
+
+    <ul class="list-group">
+      {% for n in notifications %}
+        <li class="list-group-item d-flex justify-content-between align-items-start">
+          <div class="form-check me-2">
+            <input class="form-check-input" type="checkbox" name="notifications" value="{{ n.id }}">
+          </div>
+          <div class="ms-2 me-auto">
+            <div class="fw-bold">
+              <i class="{{ n.icone }}"></i> {{ n.titre }}
+            </div>
+            {{ n.message }}
+            <br><small class="text-muted">{{ n.date_creation|date:"d M Y H:i" }}</small>
+          </div>
+          {% if n.url %}
+            <a href="{{ n.url }}" class="btn btn-sm btn-primary">Voir</a>
+          {% endif %}
+        </li>
+      {% empty %}
+        <li class="list-group-item">Aucune notification.</li>
+      {% endfor %}
+    </ul>
+  </form>
+</div>
+
+{% endblock %}

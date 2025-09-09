@@ -1,0 +1,138 @@
+{% extends 'baseG.html' %}
+{% block content %}
+
+<div class="container mt-3 mb-3" style="max-width: 900px;">
+    <div class="card p-3" style="background-color: #1f2235; border-radius: 8px;"> 
+        <div class="text-end mb-3">
+            <a class="btn btn-primary btn-sm" href="{% url 'personnes:personne_pdf' personne.id %}"> 
+                <i class="bx bx-download"></i> Télécharger fiche PDF
+            </a>
+        </div>
+        
+        <h2 class="text-center mb-3 text-white" style="font-size: 1.5rem;">Fiche de renseignements</h2>
+
+        <div class="card mb-3" style="background-color: #414769;">
+            <ul class="list-group list-group-flush text-white">
+                <li class="list-group-item py-2" style="background-color: #414769; color: white;">
+                    <strong>N° :</strong> {{ personne.code_district }}{{ personne.code_arrondissement }}{{ personne.numero_sexe }}{{ personne.numero_cin }}
+                </li>
+                <li class="list-group-item py-2" style="background-color: #414769; color: white;">
+                    <strong>Nom :</strong> {{ personne.nom_personne }}
+                </li>
+            </ul>
+        </div>
+        
+        <div class="d-flex flex-wrap justify-content-between gap-3"> 
+
+            <div class="flex-fill card" style="background-color:#414769; min-width: 280px; color: white;">
+                <ul class="list-group list-group-flush text-white">
+                    <li class="list-group-item py-2" style="background-color:#414769; color: white;">
+                        <strong>Nouveau nom :</strong> {{ personne.nouveau_nom_personne }}
+                    </li>
+                    <li class="list-group-item py-2" style="background-color:#414769; color: white;">
+                        <strong>Prénom :</strong> {{ personne.prenom_personne }}
+                    </li>
+                    <li class="list-group-item py-2" style="background-color:#414769; color: white;">
+                        <strong>Surnoms :</strong> {{ personne.surnoms_personne }}
+                    </li>
+                    <li class="list-group-item py-2" style="background-color:#414769; color: white;">
+                        <strong>Né(e) le :</strong> {{ personne.date_de_naissance }}
+                    </li>
+                    <li class="list-group-item py-2" style="background-color:#414769; color: white;">
+                        <strong>à :</strong> {{ personne.lieu_de_naissance }}
+                    </li>
+                    <li class="list-group-item py-2" style="background-color:#414769; color: white;">
+                        <strong>Père :</strong> {{ personne.pere }}
+                    </li>
+                    <li class="list-group-item py-2" style="background-color:#414769; color: white;">
+                        <strong>Mère :</strong> {{ personne.mere }}
+                    </li>
+                </ul>
+            </div>
+            
+
+            <div class="d-flex flex-column align-items-center justify-content-center card px-2" 
+                 style="background-color: #414769; min-width: 180px; color: white;"> 
+                <h5 class="text-white mb-2" style="font-size: 1rem;">QR Code</h5>
+                <img src="{% url 'personnes:generate_qrr' personne.pk %}" alt="QR Code" width="100">
+            </div>
+
+            <div class="flex-fill card" style="background-color: #414769; min-width: 280px; color: white;">
+                <ul class="list-group list-group-flush text-white">
+                    <li class="list-group-item py-2" style="background-color: #414769; color: white;">
+                        <strong>Profession :</strong> {{ personne.profession }}
+                    </li>
+                    <li class="list-group-item py-2" style="background-color: #414769; color: white;">
+                        <strong>Domicile :</strong> {{ personne.domicile }}
+                    </li>
+                    <li class="list-group-item py-2" style="background-color: #414769; color: white;">
+                        <strong>Commune :</strong> {{ personne.commune_personne }}
+                    </li>
+                    <li class="list-group-item py-2" style="background-color: #414769; color: white;">
+                        <strong>Signes particuliers :</strong> {{ personne.signe_particulier }}
+                    </li>
+                    <li class="list-group-item py-2" style="background-color: #414769; color: white;">
+                        <strong>Taille :</strong> {{ personne.taille_personne }}
+                    </li>
+                    <li class="list-group-item py-2" style="background-color: #414769; color: white;">
+                        <strong>Origine :</strong> Lot {{ personne.origine }}
+                    </li>
+                    <li class="list-group-item py-2" style="background-color: #414769; color: white;">
+                        <strong>Service national :</strong> {{ personne.service_nationale }}
+                    </li>
+                    <li class="list-group-item py-2" style="background-color: #414769; color: white;">
+                        <strong>Établie le :</strong> {{ personne.date_creation }}
+                    </li>
+                    <li class="list-group-item py-2" style="background-color: #414769; color: white;">
+                        <strong>Remplacée/renouvelée</strong>
+                    </li>
+                    <li class="list-group-item py-2" style="background-color: #414769; color: white;">
+                        <strong>Le :</strong> {{ personne.date_remplacement_cni }}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        background-color: #161623;
+        padding-top: 1rem;
+    }
+    
+    .list-group-item {
+        color: white !important;
+        border-color: #51557a;
+        padding: 8px 15px;
+        font-size: 0.9rem;
+    }
+    
+    strong {
+        color: white;
+        font-weight: 500;
+    }
+
+    .card {
+        border: none;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+        margin-bottom: 0.5rem;
+    }
+    
+    .btn-primary {
+        background-color: #3a3a6a;
+        border-color: #3a3a6a;
+        font-size: 0.85rem;
+        padding: 0.25rem 0.75rem;
+    }
+    
+    .container {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    p {
+        color: white;
+    }
+</style>
+{% endblock %}

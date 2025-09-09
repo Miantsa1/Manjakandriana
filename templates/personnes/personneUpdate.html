@@ -1,0 +1,288 @@
+{% extends 'baseG.html' %}
+{% block content %}
+{% load static %}
+
+<h1 class="text-right display-3">Modifier une personne</h1><br><br>
+<div class="card">
+    <div class="card-body pt-4">
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {% if form.non_field_errors %}
+  <div class="alert alert-danger">
+    {{ form.non_field_errors }}
+  </div>
+{% endif %}
+
+
+      {% if form.errors %}
+      <div class="alert alert-danger">
+        <ul>
+        {% for field in form %}
+          {% for error in field.errors %}
+            <li><strong>{{ field.label }}:</strong> {{ error }}</li>
+          {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+          <li>{{ error }}</li>
+        {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+
+      <div class="row g-4">
+        <div class="col-md-6">
+          <div class="d-flex align-items-start align-items-sm-center gap-6 pb-4 border-bottom">
+            {% if form.instance.photo %}
+            <img src="{{ form.instance.photo.url }}" 
+                 alt="user-avatar" 
+                 class="d-block w-px-100 h-px-100 rounded"
+                 id="photo_personne">
+            {% else %}
+                <img src="{% static 'assets/img/personne.jpg' %}" 
+                    alt="user-avatar" 
+                    class="d-block w-px-100 h-px-100 rounded"
+                    id="photo_personne">
+            {% endif %}
+          
+          <div class="button-wrapper">
+            <label for="upload" class="btn btn-primary me-3 mb-4" tabindex="0">
+              <span class="d-none d-sm-block">Modifier le photo</span>
+              <i class="bx bx-upload d-block d-sm-none"></i>
+              <input
+                type="file"
+                id="upload"
+                name="photo"
+                class="account-file-input"
+                hidden
+                accept="image/png, image/jpeg" />
+            </label>
+            <button type="button" class="btn btn-outline-secondary account-image-reset mb-4">
+              <i class="bx bx-reset d-block d-sm-none"></i>
+              <span class="d-none d-sm-block">Annuler</span>
+            </button>
+
+            <div> JPG, GIF ou PNG</div>
+          </div>
+        </div>
+        </div>
+        
+        <div class="col-md-6">
+          <label for="type_cin" class="form-label">Type du CNI <span style="color:red">*</span></label>
+          <select id="type_cin" name="type_cin" class="select2 form-select">
+            <option value="primata" {% if form.type_cin.value == "primata" %}selected{% endif %}>primata</option>
+            <option value="duplicata" {% if form.type_cin.value == "duplicata" %}selected{% endif %}>duplicata</option>
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label for="nom_personne" class="form-label">Nom</label>
+          <input type="text" class="form-control" name="nom_personne" id="nom_personne" value="{{ form.nom_personne.value }}" />
+        </div>
+
+        <div class="col-md-6">
+          <label for="prenom_personne" class="form-label">Prénoms</label>
+          <input type="text" class="form-control" name="prenom_personne" id="prenom_personne" value="{{ form.prenom_personne.value }}" />
+        </div>
+
+        <div class="col-md-6">
+          <label for="nouveau_nom_personne" class="form-label">Nouveau nom</label>
+          <input class="form-control" type="text" id="nouveau_nom_personne" name="nouveau_nom_personne" value="{{ form.nouveau_nom_personne.value }}" />
+        </div>
+
+        <div class="col-md-6">
+          <label for="surnoms_personne" class="form-label">Surnoms</label>
+          <input class="form-control" type="text" id="surnoms_personne" name="surnoms_personne" value="{{ form.surnoms_personne.value }}" />
+        </div>
+
+        <div class="col-md-6">
+          <label for="date_de_naissance" class="form-label">Date de naissance</label>
+          <input type="text" class="form-control" name="date_de_naissance" id="date_de_naissance" value="{{ form.date_de_naissance.value }}" />
+        </div>
+
+        <div class="col-md-6">
+          <label for="lieu_de_naissance" class="form-label">Lieu de naissance</label>
+          <input type="text" class="form-control" name="lieu_de_naissance" id="lieu_de_naissance" value="{{ form.lieu_de_naissance.value }}" />
+        </div>
+
+        <div class="col-md-6">
+          <label for="signe_particulier" class="form-label">Signe particulier</label>
+          <input type="text" class="form-control" name="signe_particulier" id="signe_particulier" value="{{ form.signe_particulier.value }}" />
+        </div>
+
+        <div class="col-md-6">
+          <label for="taille_personne" class="form-label">Taille</label>
+          <input class="form-control" type="text" id="taille_personne" name="taille_personne" value="{{ form.taille_personne.value }}" />
+        </div>
+
+        <div class="col-md-6">
+          <label for="commune_personne" class="form-label">Commune</label>
+          <input class="form-control" type="text" id="commune_personne" name="commune_personne" value="{{ form.commune_personne.value }}" />
+        </div>
+
+        <div class="col-md-6">
+          <label for="code_district" class="form-label">Code District</label>
+          <input type="text" class="form-control" name="code_district" id="code_district" value="{{ form.code_district.value }}" readonly/>
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">Code Arrondissement</label>
+          <input type="text" id="arrondissement_numero" class="form-control" readonly>
+        </div>
+
+        <div class="col-md-6">
+          <label for="numero_sexe" class="form-label">Indice sexe</label>
+          <select class="form-select" name="numero_sexe" id="numero_sexe">
+            <option value="1" {% if form.numero_sexe.value == "1" %}selected{% endif %}>1</option>
+            <option value="2" {% if form.numero_sexe.value == "2" %}selected{% endif %}>2</option>
+          </select>
+        </div>
+
+        <div class="col-md-6">
+          <label for="numero_cin" class="form-label">Numéro CIN</label>
+          <input type="text" class="form-control" name="numero_cin" id="numero_cin" maxlength="6" value="{{ form.numero_cin.value }}" />
+        </div>
+
+        <div class="col-md-6">
+          <label for="sexe" class="form-label">Sexe</label>
+          <input id="sexe" name="sexe" class="select2 form-select" readonly>
+        </div>
+
+        <div class="col-md-6">
+          <label for="domicile" class="form-label">Domicile</label>
+          <input type="text" class="form-control" name="domicile" id="domicile" value="{{ form.domicile.value }}" />
+        </div>
+
+        <div class="col-md-6">
+          <label for="id_arrondissement" class="form-label">Nom de l'Arrondissement</label>
+          {{ form.arrondissement }}
+          {% if form.arrondissement.errors %}
+            <div class="text-danger">{{ form.arrondissement.errors }}</div>
+          {% endif %}
+        </div>
+        
+      
+        <div class="col-md-6">
+          <label for="profession" class="form-label">Profession</label>
+          <input type="text" class="form-control" name="profession" id="profession" value="{{ form.profession.value }}" />
+        </div>
+
+        <div class="col-md-6">
+          <label for="origine" class="form-label">Origine</label>
+          <input class="form-control" type="text" id="origine" name="origine" value="{{ form.origine.value }}" />
+        </div>
+
+        <div class="col-md-6">
+          <label for="pere" class="form-label">Père</label>
+          <input type="text" class="form-control" name="pere" id="pere" value="{{ form.pere.value }}" />
+        </div>
+
+        <div class="col-md-6">
+          <label for="mere" class="form-label">Mère</label>
+          <input type="text" class="form-control" name="mere" id="mere" value="{{ form.mere.value }}" />
+        </div>
+
+        <div class="col-md-6">
+          <label for="service_nationale" class="form-label">Service nationale</label>
+          <select class="form-select" name="service_nationale" id="service_nationale">
+            <option value="recense" {% if form.service_nationale.value == "recense" %}selected{% endif %}>Recensé(e)</option>
+            <option value="non_recense" {% if form.service_nationale.value == "non_recense" %}selected{% endif %}>Non recensé(e)</option>
+          </select>
+        </div>
+
+        <div class="col-md-6">
+          <label for="date_enregistrement_cin" class="form-label">Date enregistrement CNI</label>
+          <input type="text" class="form-control" name="date_enregistrement_cin" id="date_enregistrement_cin" value="{{ form.date_enregistrement_cin.value }}" />
+        </div>
+
+        <div class="col-md-6">
+          <label for="lieu_enregistrement_cin" class="form-label">Lieu enregistrement CNI</label>
+          <input type="text" class="form-control" name="lieu_enregistrement_cin" id="lieu_enregistrement_cin" value="{{ form.lieu_enregistrement_cin.value }}" />
+        </div>
+
+        <div class="col-md-6">
+          <label for="date_remplacement_cni" class="form-label">Date de remplacement du CNI</label>
+          <input class="form-control" type="text" id="date_remplacement_cni" name="date_remplacement_cni" value="{{ form.date_remplacement_cni.value }}" />
+        </div>
+        <div class="col-md-6">
+          <label for="bon_de_commande" class="form-label">N° de série</label>
+          <input class="form-control" type="text" id="bon_de_commande" name="bon_de_commande" value="{{ form.bon_de_commande.value }}" />
+        </div>
+      </div>
+
+      <div class="mt-4">
+        <button type="submit" class="btn btn-primary">Modifier</button>
+        <a href="{% url 'personnes:indexPersonne' %}" class="btn btn-outline-secondary">Annuler</a>
+      </div>
+    </form>
+  </div>
+</div>
+<script>
+  document.getElementById('upload').addEventListener('change', function (event) {
+    const [file] = event.target.files;
+    if (file) {
+      const image = document.getElementById('photo_personne');
+      image.src = URL.createObjectURL(file);
+
+      const label = document.querySelector('label[for="upload"] span');
+      label.textContent = file.name;
+    }
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const typeCin = document.getElementById('type_cin');
+    const dateRemplacement = document.getElementById('date_remplacement_cni');
+
+    function toggleDateRemplacement() {
+      if (typeCin.value === 'duplicata') {
+        dateRemplacement.disabled = false;
+        dateRemplacement.required = true;
+      } else {
+        dateRemplacement.disabled = true; 
+        dateRemplacement.value = '';
+        dateRemplacement.required = false; 
+      }
+    }
+
+    toggleDateRemplacement();
+    typeCin.addEventListener('change', toggleDateRemplacement);
+  });
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const numeroSexe = document.getElementById('numero_sexe');
+    const sexe = document.getElementById('sexe');
+
+    numeroSexe.addEventListener('change', function () {
+      if (this.value === '1') {
+        sexe.value = 'Homme';
+      } else if (this.value === '2') {
+        sexe.value = 'Femme';
+      }
+    });
+
+    numeroSexe.dispatchEvent(new Event('change'));
+  });
+</script>
+<script>
+  const arrondissementSelect = document.getElementById("id_arrondissement");
+  const nomInput = document.getElementById("arrondissement_numero");
+
+  const arrondissementNomMap = {
+    {% for arr in form.fields.arrondissement.queryset %}
+      "{{ arr.pk }}": "{{ arr.arrondissement_numero }}",
+    {% endfor %}
+  };
+
+  arrondissementSelect.addEventListener("change", function() {
+    const selectedId = this.value;
+    nomInput.value = arrondissementNomMap[selectedId] || "";
+  });
+
+  window.addEventListener("load", () => {
+    const selectedId = arrondissementSelect.value;
+    nomInput.value = arrondissementNomMap[selectedId] || "";
+  });
+</script>
+
+{% endblock %}

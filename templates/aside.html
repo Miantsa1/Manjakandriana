@@ -1,0 +1,159 @@
+{% load static %}
+<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+    
+
+    <div class="app-brand demo d-flex justify-content-center my-3">
+      <a href="index.html" class="app-brand-link d-flex align-items-center">
+        <span class="app-brand-logo demo">
+          <img src="{% static 'assets/img/logo_district1.jpg' %}" alt="Logo" width="60" height="60" class="rounded shadow">
+        </span>
+      </a>
+    </div>
+    
+    <div class="menu-inner-shadow"></div>
+
+    <ul class="menu-inner py-1">
+      <!-- Dashboards -->
+      <li class="menu-item active">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+          <i class="menu-icon tf-icons bx bx-home-smile"></i>
+          <div class="text-truncate" data-i18n="Dashboards">Accueil</div>
+          <span class="badge rounded-pill bg-danger ms-auto">2</span>
+        </a>
+        <ul class="menu-sub">
+          <li class="menu-item">
+            <a href="{% url 'personnes:carte' %}" class="menu-link">
+              <div class="text-truncate" data-i18n="District">Lieu</div>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="{% url 'personnes:tableau_de_bord' %}" class="menu-link">
+              <div class="text-truncate" data-i18n="Analytics">Tableau de bord</div>
+            </a>
+          </li>
+
+        </ul>
+      </li>
+      
+      <li class="menu-item active open">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+          <i class="menu-icon tf-icons bx bx-dock-top"></i>
+          <div class="text-truncate" data-i18n="CNI">CNI</div>
+        </a>
+        <ul class="menu-sub">
+          
+          {% if responsable.fonction == "arrondissement" %}
+          <li class="menu-item active">
+            <a href="{% url 'personnes:create_personne' %}" class="menu-link">
+              <div class="text-truncate" data-i18n="Nouvelle CNI">Nouvelle CNI</div>
+            </a>
+          </li>
+          {% endif %}
+          <li class="menu-item">
+            <a href="{% url 'personnes:valider_personne' %}" class="menu-link">
+              <div class="text-truncate" data-i18n="Dashboards"> Liste (NV)</div>
+            </a>
+          </li>
+                            
+          {% if responsable.fonction == "arrondissement" %}
+          <li class="menu-item">
+            <a href="{% url 'personnes:liste_personne' %}" class="menu-link">
+              <i class="menu-icon tf-icons bx bx-list-check"></i>
+              <div class="text-truncate" data-i18n="Dashboards">CNI Validées</div>
+            </a>
+          </li>
+          {% endif %}
+          <li class="menu-item">
+            <a href="{% url 'personnes:indexPersonne' %}" class="menu-link">
+              <div class="text-truncate" data-i18n="Fiche de renseignements">Liste</div>
+            </a>
+          </li>
+        </ul>
+      </li>
+      
+      <li class="menu-item">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+          <i class="menu-icon tf-icons bx bx-table"></i>
+          <div class="text-truncate" data-i18n="Authentications">Arrondissements</div>
+        </a>
+        <ul class="menu-sub">
+
+          <li class="menu-item">
+            <a href="{% url 'arrondissements:indexArrondissement' %}" class="menu-link">
+              <div class="text-truncate" data-i18n="Basic">Liste</div>
+            </a>
+          </li>
+          {% if responsable.fonction == "district" %}
+          <li class="menu-item">
+            <a href="{% url 'arrondissements:create_arrondissement' %}" class="menu-link">
+              <div class="text-truncate" data-i18n="Basic">Ajout</div>
+            </a>
+          </li>
+          {% endif %}
+        </ul>
+      </li>
+
+      <li class="menu-item">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+          <i class="menu-icon tf-icons bx bx-table"></i>
+          <div class="text-truncate" data-i18n="Authentications">Chef de District</div>
+        </a>
+        <ul class="menu-sub">
+          <li class="menu-item">
+            <a href="{% url 'responsables:indexResponsable' %}" class="menu-link">
+              <div class="text-truncate" data-i18n="Basic">Liste</div>
+            </a>
+          </li>
+          {% if responsable.fonction == "district" %}
+          <li class="menu-item">
+            <a href="{% url 'responsables:create_responsable' %}" class="menu-link">
+              <div class="text-truncate" data-i18n="Basic">Ajout</div>
+            </a>
+          </li>
+          {% endif %}
+        </ul>
+      </li>
+      
+      <li class="menu-header small text-uppercase"><span class="menu-header-text">Rapport</span></li>
+      <!-- Forms -->
+      <li class="menu-item">
+        <a href="{% url 'responsables:email_form' %}" class="menu-link">
+          <i class="menu-icon tf-icons bx bx-envelope"></i>
+          <div class="text-truncate" data-i18n="Form Elements">Email</div>
+        </a>
+      </li>
+
+      
+
+    </ul>
+</aside>  
+
+<style>
+  #layout-menu {
+    background: linear-gradient(to bottom, #2c2f4a, #1f2235);
+    color: #f0f0f0;
+  }
+  #layout-menu .menu-link,
+  #layout-menu .menu-header-text,
+  #layout-menu .app-brand-text,
+  #layout-menu .menu-icon {
+    color: #e0e0e0 !important;
+  }
+
+  #layout-menu .menu-item:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  #layout-menu .menu-item.active {
+    background-color: #3d4163;
+    border-left: 4px solid #696cff;
+  }
+
+  .app-brand-text {
+    color: #ffffff !important;
+  }
+
+  .menu-inner-shadow {
+    box-shadow: none;
+  }
+</style>

@@ -1,0 +1,46 @@
+{% extends 'baseG.html' %}
+{% block content %}
+
+<div class="container mt-5">
+  <h2 class="text-center mb-4">Détails de la personne</h2>
+  <a class="dropdown-item" href="{% url 'personnes:personne_pdf' personne.id %}">
+    <i class="bx bx-download"></i> Télécharger CNI PDF
+  </a>
+  
+  <ul class="list-group mb-4">
+    <li class="list-group-item"><strong>Nom :</strong> {{ personne.nom_personne }}</li>
+    <li class="list-group-item"><strong>Prénom :</strong> {{ personne.prenom_personne }}</li>
+    <li class="list-group-item"><strong>Date de naissance :</strong> {{ personne.date_de_naissance }}</li>
+    <li class="list-group-item"><strong>Lieu de naissance :</strong> {{ personne.lieu_de_naissance }}</li>
+    <li class="list-group-item"><strong>Signe particulier :</strong> {{ personne.signe_particulier }}</li>
+    <li class="list-group-item"><strong>Taille :</strong> {{ personne.taille_personne }}</li>
+    <li class="list-group-item"><strong>CIN :</strong> {{ personne.code_district }}{{ personne.code_arrondissement }}{{ personne.numero_sexe }}{{ personne.numero_cin }}</li>
+    <li class="list-group-item"><strong>N° de série :</strong> {{ personne.bon_de_commande }}</li>
+    <li class="list-group-item"><strong>Sexe :</strong> {{ personne.sexe }}</li>
+    <li class="list-group-item"><strong>Domicile :</strong> Lot {{ personne.domicile }}</li>
+    <li class="list-group-item"><strong>Arrondissement :</strong> {{ personne.arrondissement }}</li>
+    <li class="list-group-item"><strong>Profession :</strong> {{ personne.profession }}</li>
+    <li class="list-group-item"><strong>Père :</strong> {{ personne.pere }}</li>
+    <li class="list-group-item"><strong>Mere :</strong> {{ personne.mere }}</li>
+    <li class="list-group-item"><strong>Date de création du CNI :</strong> {{ personne.date_enregistrement_cin }}</li>
+    <li class="list-group-item"><strong>À </strong> {{ personne.lieu_enregistrement_cin }}</li>
+    <li class="list-group-item"><strong>Date remplacement du CNI :</strong> {{ personne.date_remplacement_cni }}</li>  
+
+  </ul>
+
+  <div class="text-center">
+    <h5>QR Code</h5>
+    <img src="data:image/png;base64,{{ image_qr_base64 }}" width="150" height="150" alt="QR Code">
+  </div>
+</div>
+<style>
+  .list-group-item {
+    color: #e0e0e0;
+  }
+
+  .text-center h5{
+    color: beige;
+  }
+
+</style>
+{% endblock %}

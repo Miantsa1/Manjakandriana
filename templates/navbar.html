@@ -1,0 +1,89 @@
+{% load static %}
+
+<nav
+  class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+  id="layout-navbar">
+
+  <div class="layout-menu-toggle navbar-nav align-items-xl-center me-4 me-xl-0 d-xl-none">
+    <a class="nav-item nav-link px-0 me-xl-6" href="javascript:void(0)">
+      <i class="bx bx-menu bx-md"></i>
+    </a>
+  </div>
+
+  <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+
+    <!-- Search -->
+    <div class="navbar-nav align-items-center">
+      <div class="nav-item d-flex align-items-center">
+        <i class="bx bx-search bx-md"></i>
+        <a href="{% url 'personnes:rechercher' %}" class="form-control border-0 shadow-none ps-1 ps-sm-2">Rechercher</a>
+      </div>
+    </div>
+    <!-- /Search -->
+
+    <ul class="navbar-nav flex-row align-items-center ms-auto">
+      <!-- Notifications -->
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle hide-arrow" href="#" data-bs-toggle="dropdown">
+          <i class="bx bx-bell bx-sm"></i>
+          {% if notifications_non_lues > 0 %}
+            <span class="badge bg-danger rounded-pill">{{ notifications_non_lues }}</span>
+          {% endif %}
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li class="dropdown-header">Notifications</li>
+          {% for notif in notifications_liste %}
+            <li>
+              <a class="dropdown-item" href="{% url 'responsables:marquer_notification_lue' notif.id %}">
+                {% if not notif.est_lue %}
+                  <strong><i class="bx bx-envelope me-2"></i> {{ notif.titre }}</strong>
+                {% else %}
+                  <i class="bx bx-envelope-open me-2"></i> {{ notif.titre }}
+                {% endif %}
+              </a>
+            </li>
+          {% endfor %}
+
+          <li><hr class="dropdown-divider" /></li>
+          <li><a class="dropdown-item text-center" href="{% url 'responsables:notifications' %}">Voir toutes les notifications</a></li>
+        </ul>
+      </li>
+      
+      <!-- /Notifications -->
+
+      <!-- User Dropdown -->
+      {% if responsable %}
+      <li class="nav-item navbar-dropdown dropdown-user dropdown">
+        <a class="nav-link dropdown-toggle hide-arrow p-0" href="#" data-bs-toggle="dropdown">
+          <div class="avatar avatar-online">
+            <img src="{{ responsable.get_image_url }}" width="40" height="40" style="object-fit: cover; border-radius: 50%;" />
+          </div>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li>
+            <a class="dropdown-item" href="#">
+              <div class="d-flex">
+                <div class="flex-shrink-0 me-3">
+                  <div class="avatar avatar-online">
+                    <img src="{{ responsable.get_image_url }}" width="40" height="40" style="object-fit: cover; border-radius: 50%;" />
+                  </div>
+                </div>
+                <div class="flex-grow-1">
+                  <h6 class="mb-0">{{ responsable.nom_responsable }} {{ responsable.prenom_responsable }}</h6>
+                  <small class="text-muted">{{ responsable.fonction }} {{ responsable.arrondissement }}</small>
+                </div>
+              </div>
+            </a>
+          </li>
+          <li><div class="dropdown-divider my-1"></div></li>
+          <li><a class="dropdown-item" href="#"><i class="bx bx-user me-2"></i> Profil</a></li>
+          <li><a class="dropdown-item" href="{% url 'responsables:parametre' responsable.id %}"><i class="bx bx-cog me-2"></i> Paramètres</a></li>
+          <li><div class="dropdown-divider my-1"></div></li>
+          <li><a class="dropdown-item" href="{% url 'responsables:logout' %}"><i class="bx bx-power-off me-2"></i> Déconnexion</a></li>
+        </ul>
+      </li>
+      {% endif %}
+
+    </ul>
+  </div>
+</nav>
